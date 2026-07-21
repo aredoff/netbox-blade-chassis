@@ -1,0 +1,86 @@
+{% extends 'generic/object.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Blade Layout" %} {{ object }}{% endblock %}
+
+{% block tabs %}
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ object.get_absolute_url }}">{% trans "Device Type" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="">{% trans "Blade Layout" %}</a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-header">
+            <strong>{% trans "Device Bay Templates" %}</strong>
+          </div>
+          <div class="card-body table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>{% trans "Name" %}</th>
+                  <th>{% trans "Label" %}</th>
+                  <th>{% trans "Position X" %}</th>
+                  <th>{% trans "Position Y" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in rows %}
+                  <tr>
+                    <td>{{ row.template.name }}</td>
+                    <td>{{ row.template.label|default:"—" }}</td>
+                    <td>{{ row.form.position_x }}</td>
+                    <td>{{ row.form.position_y }}</td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="4" class="text-muted">{% trans "No device bay templates defined." %}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% if rows %}
+            <div class="card-footer text-end">
+              <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header">
+            <strong>{% trans "Preview" %}</strong>
+          </div>
+          <div class="card-body">
+            {% if preview_rows %}
+              <div class="blade-layout-preview border rounded p-2">
+                <div class="text-center fw-bold mb-2">{{ object.model }}</div>
+                {% for row in preview_rows %}
+                  <div class="blade-layout-preview-row d-flex gap-1 mb-1">
+                    {% for bay_name in row %}
+                      <div class="border rounded text-center p-1 flex-fill" style="min-height: 36px; font-size: 0.75rem;">
+                        {% if bay_name %}<small>{{ bay_name }}</small>{% else %}&nbsp;{% endif %}
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-muted mb-0">{% trans "Set coordinates to see a preview." %}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

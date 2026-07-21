@@ -1,0 +1,33 @@
+<script>
+(function () {
+  const corePrefix = '/api/dcim/racks/';
+  const pluginPrefix = '/api/plugins/blade-chassis/racks/';
+
+  function rewriteElevationPath(path) {
+    if (!path || !path.includes(corePrefix) || !path.includes('/elevation/')) {
+      return path;
+    }
+    return path.replace(corePrefix, pluginPrefix);
+  }
+
+  function patchElevationUrls(root) {
+    root.querySelectorAll('[hx-get*="' + corePrefix + '"]').forEach(function (el) {
+      el.setAttribute('hx-get', rewriteElevationPath(el.getAttribute('hx-get')));
+    });
+    root.querySelectorAll('a[href*="' + corePrefix + '"]').forEach(function (el) {
+      el.setAttribute('href', rewriteElevationPath(el.getAttribute('href')));
+    });
+  }
+
+  document.addEventListener('htmx:configRequest', function (event) {
+    event.detail.path = rewriteElevationPath(event.detail.path);
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    patchElevationUrls(document);
+    document.body.addEventListener('htmx:afterSwap', function (event) {
+      patchElevationUrls(event.target);
+    });
+  });
+})();
+</script>

@@ -1,0 +1,2 @@
+recursive-include netbox_blade_chassis/templates *
+recursive-include netbox_blade_chassis/migrations *.py
