@@ -7,6 +7,8 @@ class NetboxBladeChassisConfig(PluginConfig):
     name = 'netbox_blade_chassis'
     verbose_name = 'NetBox Blade Chassis'
     description = 'Visualize blade server bays inside chassis devices in rack elevations.'
+    author = 'Aleksandr Krasnov'
+    author_email = 'aredoff@gmail.com'
     version = __version__
     base_url = 'blade-chassis'
     min_version = '4.6.0'
