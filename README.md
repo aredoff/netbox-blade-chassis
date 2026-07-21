@@ -11,6 +11,12 @@ NetBox plugin that renders blade server bays inside chassis devices in rack SVG 
 - Inline rack elevation via plugin SVG endpoint
 - Clickable blade cells linking to child devices
 
+## Screenshot
+
+Rack elevation with blade chassis devices. Child devices are rendered inside the parent chassis grid; cells link to the installed device.
+
+![Rack elevation with blade chassis layout](docs/img/rack.png)
+
 ## Compatibility
 
 | NetBox Version | Plugin Version |
