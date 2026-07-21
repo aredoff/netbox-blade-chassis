@@ -1,10 +1,11 @@
-from dcim.api.serializers_.racks import RackElevationDetailFilterSerializer
-from dcim.api.serializers_.rackunits import RackUnitSerializer
-from dcim.models import Rack
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from dcim.api.serializers_.racks import RackElevationDetailFilterSerializer
+from dcim.api.serializers_.rackunits import RackUnitSerializer
+from dcim.models import Rack
 
 from netbox_blade_chassis.svg.racks import BladeChassisRackElevationSVG
 

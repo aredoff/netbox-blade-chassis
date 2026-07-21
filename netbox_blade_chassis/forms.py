@@ -1,10 +1,10 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
+
+from dcim.forms.model_forms import DeviceBayTemplateForm as BaseDeviceBayTemplateForm
 from dcim.forms.object_create import ComponentCreateForm
 from utilities.forms.fields import ExpandableNameField
 from utilities.forms.rendering import FieldSet
-
-from dcim.forms.model_forms import DeviceBayTemplateForm as BaseDeviceBayTemplateForm
 
 from netbox_blade_chassis.models import DeviceBayTemplateLayout
 

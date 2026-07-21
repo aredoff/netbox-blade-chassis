@@ -1,0 +1,68 @@
+name: Run tests under netbox
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test-netbox:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        netbox-version: ['v4.6.0']
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: netbox
+          POSTGRES_PASSWORD: netbox
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@main
+        with:
+          path: netbox-blade-chassis
+
+      - name: Set up Python
+        uses: actions/setup-python@main
+        with:
+          python-version: '3.12'
+
+      - name: Checkout netbox ${{ matrix.netbox-version }}
+        uses: actions/checkout@v6
+        with:
+          repository: netbox-community/netbox
+          ref: ${{ matrix.netbox-version }}
+          path: netbox
+
+      - name: Install netbox_blade_chassis
+        working-directory: netbox-blade-chassis
+        run: pip install .
+
+      - name: Install dependencies and set up configuration
+        working-directory: netbox
+        run: |
+          ln -s $(pwd)/../netbox-blade-chassis/testing/configuration_testing.py netbox/netbox/configuration.py
+          python -m pip install --upgrade pip
+          python -m pip install tblib
+          pip install -r requirements.txt -U
+
+      - name: Check for missing migrations
+        working-directory: netbox
+        run: python netbox/manage.py makemigrations --check
+
+      - name: Run tests
+        working-directory: netbox
+        run: python netbox/manage.py test netbox_blade_chassis.tests --parallel -v 2

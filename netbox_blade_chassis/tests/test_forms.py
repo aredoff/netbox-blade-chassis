@@ -4,6 +4,7 @@ from django.test import TestCase
 django.setup()
 
 from dcim.models import DeviceBayTemplate, DeviceType, Manufacturer
+
 from netbox_blade_chassis.forms import DeviceBayTemplateForm, _layout_requested
 from netbox_blade_chassis.models import DeviceBayTemplateLayout
 

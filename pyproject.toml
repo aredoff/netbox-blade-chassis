@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netbox-blade-chassis"
+version = "0.1.0"
+description = "NetBox plugin for blade chassis visualization in rack elevations."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+keywords = ["netbox", "netbox-plugin", "blade-chassis"]
+
+[project.urls]
+Homepage = "https://github.com/aredoff/netbox-blade-chassis/"
+"Bug Tracker" = "https://github.com/aredoff/netbox-blade-chassis/issues/"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["netbox_blade_chassis*"]
+
+[tool.ruff]
+exclude = [
+    "netbox_blade_chassis/migrations",
+]
+
+[tool.ruff.lint]
+extend-select = ["E4", "E7", "E9", "F", "W", "C", "I"]
+ignore = ["F403", "F405"]
+
+[tool.ruff.lint.per-file-ignores]
+"netbox_blade_chassis/tests/*.py" = ["E402"]
+"netbox_blade_chassis/svg/racks.py" = ["C901"]
+
+[tool.ruff.lint.isort]
+known-local-folder = ["netbox_blade_chassis"]
+known-first-party = [
+    "netbox",
+    "core",
+    "dcim",
+    "extras",
+    "tenancy",
+    "users",
+    "utilities",
+]
+
+[tool.ruff.format]
+quote-style = "single"

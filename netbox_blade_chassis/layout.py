@@ -1,9 +1,10 @@
 from collections import defaultdict
 from typing import NamedTuple
 
-from dcim.models import Device, DeviceType
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
+from dcim.models import Device, DeviceType
 
 from netbox_blade_chassis.models import DeviceBayTemplateLayout
 

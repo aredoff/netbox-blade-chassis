@@ -1,10 +1,12 @@
-from dcim.models import Device
-from dcim.svg.racks import RackElevationSVG, truncate_text
 from django.utils.translation import gettext as _
 from svgwrite.container import Hyperlink
 from svgwrite.masking import ClipPath
 from svgwrite.shapes import Line, Rect
 from svgwrite.text import Text, TSpan
+
+from dcim.models import Device
+from dcim.svg.racks import RackElevationSVG, truncate_text
+from utilities.html import foreground_color
 
 from netbox_blade_chassis.layout import (
     device_has_blade_layout,
@@ -15,7 +17,6 @@ from netbox_blade_chassis.layout import (
     group_layout_by_row,
     mirror_column_index,
 )
-from utilities.html import foreground_color
 
 
 class BladeChassisRackElevationSVG(RackElevationSVG):
@@ -110,10 +111,7 @@ class BladeChassisRackElevationSVG(RackElevationSVG):
 
         for row_number, row_index in enumerate(row_indices):
             cell_y = inner_y + row_number * row_height
-            cells_by_x = {
-                position_x: bay_name
-                for position_x, bay_name in rows[row_index]
-            }
+            cells_by_x = dict(rows[row_index])
 
             for position_x in range(column_count):
                 bay_name = cells_by_x.get(position_x)

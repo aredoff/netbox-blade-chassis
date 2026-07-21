@@ -4,7 +4,15 @@ from django.test import TestCase
 
 django.setup()
 
-from dcim.models import Device, DeviceBayTemplate, DeviceRole, DeviceType, Manufacturer, Site
+from dcim.models import (
+    Device,
+    DeviceBayTemplate,
+    DeviceRole,
+    DeviceType,
+    Manufacturer,
+    Site,
+)
+
 from netbox_blade_chassis.layout import (
     LayoutEntry,
     device_has_blade_layout,

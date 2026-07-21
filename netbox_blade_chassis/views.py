@@ -1,4 +1,3 @@
-from dcim.models import DeviceBayTemplate, DeviceType
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ValidationError
@@ -6,6 +5,8 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views import View
+
+from dcim.models import DeviceBayTemplate, DeviceType
 from netbox.views import generic
 from utilities.views import ViewTab, register_model_view
 
@@ -152,10 +153,7 @@ def _build_preview(rows):
     column_count = get_symmetric_column_count(grouped)
     preview = []
     for row_index in sorted(grouped.keys()):
-        cells_by_x = {
-            position_x: name
-            for position_x, name in grouped[row_index]
-        }
+        cells_by_x = dict(grouped[row_index])
         preview.append([
             cells_by_x.get(position_x, '')
             for position_x in range(column_count)
